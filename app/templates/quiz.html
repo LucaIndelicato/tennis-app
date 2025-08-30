@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Livello - Tennis App{% endblock %}
+
+{% block content %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
+        <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+            Scopri il tuo livello di gioco
+        </h2>
+        <p class="mt-2 text-center text-sm text-gray-400">
+            Rispondi a queste domande per avere una stima del tuo livello.
+        </p>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-2xl">
+        <form class="space-y-8" action="{{ url_for('main.quiz') }}" method="post">
+            {{ form.hidden_tag() }}
+
+            {% for question in form if question.type == 'RadioField' %}
+            <div>
+                <label class="block text-md font-medium leading-6 text-white">{{ question.label.text }}</label>
+                <div class="mt-2 space-y-2">
+                    {% for subfield in question %}
+                    <div class="flex items-center">
+                        {{ subfield(class="h-4 w-4 border-gray-300 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900") }}
+                        <label for="{{ subfield.id }}" class="ml-3 block text-sm font-medium leading-6 text-gray-300">{{ subfield.label.text }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="pt-4">
+                {{ form.submit(class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

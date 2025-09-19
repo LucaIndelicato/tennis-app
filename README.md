@@ -89,14 +89,11 @@ Per avviare il progetto in locale sul tuo computer, segui questi semplici passag
     L'applicazione sarà ora accessibile all'indirizzo `http://127.0.0.1:5000`.
 
 <br>
-
-## 📂 Struttura del Progetto e Logica di Funzionamento
-
+## 📂 Struttura del Progetto
 Il codice è organizzato seguendo le best practice del pattern **Application Factory** per garantire modularità e scalabilità.
 
-## Folder structure:
+```
 tennis-app/
-│
 ├── app/                  # Cuore dell'applicazione Flask
 │   ├── static/           # File statici (CSS, JS, immagini)
 │   ├── templates/        # Template HTML con Jinja2
@@ -108,9 +105,10 @@ tennis-app/
 ├── instance/             # Cartella per file non versionati (es. app.db)
 │   └── app.db            # Database SQLite
 │
-├── venv/                 # Ambiente virtuale Python
+├── venv/                 # Ambiente virtuale Python (non tracciato da Git)
 │
 ├── config.py             # File di configurazione (chiavi segrete, URI DB)
 ├── requirements.txt      # Elenco delle dipendenze Python
 ├── run.py                # Script per avviare l'applicazione
 └── README.md             # Questo file!
+```

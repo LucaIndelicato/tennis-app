@@ -1,0 +1,12 @@
+TO DO LIST
+- creare una sezione eventi dedicata ✅
+- capire come modificare la HP in funzione della creazione di sezioni dedicate (eventi, profili ecc) 🏋🏼‍♀️
+- creare funzionalità di modfica/cancellazione evento creato ✅
+
+Creare funzionalità a livello utente
+- connessioni tra utenti (follow/rally)
+- chat
+- navigare su profili di altri utenti
+- caricamento di una foto
+- descrzione personale
+- feedback eventi

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Il Tuo Profilo - Tennis App{% endblock %}
+
+{% block content %}
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 text-white">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="bg-green-600 text-white rounded-md p-3 mb-6 text-center">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
+        <h2 class="mt-2 text-center text-3xl font-bold leading-9 tracking-tight">
+            Il Tuo Profilo
+        </h2>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+        
+        <div class="bg-gray-800 p-8 rounded-lg">
+            <h3 class="text-xl font-bold mb-6">Modifica Dati Anagrafici</h3>
+            <form class="space-y-6" action="{{ url_for('main.account') }}" method="post">
+                {{ form.hidden_tag() }}
+
+                <div>
+                    <label class="block text-sm font-medium leading-6">{{ form.nome.label }}</label>
+                    <div class="mt-2">
+                        {{ form.nome(class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6") }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium leading-6">{{ form.cognome.label }}</label>
+                    <div class="mt-2">
+                        {{ form.cognome(class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6") }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium leading-6">{{ form.data_di_nascita.label }}</label>
+                    <div class="mt-2">
+                        {{ form.data_di_nascita(class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6") }}
+                        <p class="text-xs text-gray-400 mt-1">Formato: AAAA-MM-GG</p>
+                    </div>
+                </div>
+                
+                <div class="pt-4">
+                    {{ form.submit(class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400") }}
+                </div>
+            </form>
+        </div>
+
+        <div class="bg-gray-800 p-8 rounded-lg">
+            <h3 class="text-xl font-bold mb-6">Le Tue Statistiche</h3>
+            <div class="space-y-6">
+                <div>
+                    <p class="text-sm text-gray-400">Nome Completo</p>
+                    <p class="text-2xl font-bold mt-1">{{ current_user.nome }} {{ current_user.cognome or '' }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-400">Età</p>
+                    <p class="text-2xl font-bold mt-1">{{ eta or 'Non specificata' }}</p>
+                </div>
+
+                <div class="border-t border-gray-700 pt-4">
+                    <p class="text-sm text-gray-400">Livello Attuale</p>
+                    <p class="text-3xl font-bold text-indigo-400 mt-1">{{ current_user.livello }}</p>
+                </div>
+
+                <div class="border-t border-gray-700 pt-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-400">Eventi Partecipati</p>
+                        <p class="text-3xl font-bold mt-1">{{ eventi_partecipati }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-400">Eventi Creati</p>
+                        <p class="text-3xl font-bold mt-1">{{ eventi_creati }}</p>
+                    </div>
+                </div>
+                 <div class="mt-6 border-t border-gray-700 pt-4 text-center">
+                    <a href="{{ url_for('main.quiz') }}" class="text-sm font-semibold text-indigo-400 hover:text-indigo-300">
+                        Fai il quiz per aggiornare il tuo livello
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

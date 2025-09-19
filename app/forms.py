@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
-from app.models import User
+from wtforms import StringField, PasswordField, SubmitField, DateField
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, Optional
+from app.models import User, Event
 from wtforms import BooleanField
 from wtforms import RadioField
 from wtforms import TextAreaField, SelectField, IntegerField, DateTimeLocalField
@@ -20,7 +20,7 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Questa email è già stata utilizzata.')
-        
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -51,18 +51,26 @@ class QuizForm(FlaskForm):
     
     submit = SubmitField('Calcola il mio livello')
 
+
+class UpdateAccountForm(FlaskForm):
+    """questa classe serve per la modifica delle info nell'account page"""
+
+    nome = StringField('Nome', validators=[DataRequired(), Length(min=2, max=64)])
+    cognome = StringField('Cognome', validators=[Length(min=0, max=64)])
+    data_di_nascita = DateField('Data di Nascita', format='%Y-%m-%d', validators=[Optional()])
+    submit = SubmitField('Salva Modifiche')
+
+
+# ==============================================================================
+# FORMS GESTIONE EVENTI
+# ==============================================================================
 class EventForm(FlaskForm):
     titolo = StringField('Titolo Evento', validators=[DataRequired(), Length(min=5, max=100)])
     tipologia = SelectField(
-        'Tipologia Evento' , 
-        choices = [('Partita 1vs1', 'Partita 1vs1'),
-            ('Partita 2vs2', 'Partita 2vs2'),
-            ('Allenamento guidato', 'Allenamento guidato'),
-            ('Lezione', 'Lezione')
-        ],
-        validators = [DataRequired()]
+        'Tipologia Evento',
+        choices=Event.TIPOLOGIA_CHOICES,  validators=[DataRequired()]  # <-- Utilizza la lista dal modello
     )
-    descrizione = TextAreaField('Descrizione', validators=[Length(min=0, max=200)])
+    descrizione = TextAreaField('Descrizione', validators=[Length(min=0, max=1000)])
     data_ora = DateTimeLocalField(
         'Data e Ora',
         format='%Y-%m-%dT%H:%M',
@@ -72,12 +80,30 @@ class EventForm(FlaskForm):
     max_partecipanti = IntegerField('Numero massimo di partecipanti', validators=[DataRequired(), NumberRange(min=2, max=10)])
     livello_consigliato = SelectField(
         'Livello Consigliato',
-        choices=[
-            ('Principiante', 'Principiante'),
-            ('Intermedio', 'Intermedio'),
-            ('Avanzato', 'Avanzato'),
-            ('Tutti', 'Tutti i livelli')
-        ],
-        validators=[DataRequired()]
+        choices=Event.LIVELLO_CHOICES, validators=[DataRequired()]  # <-- Utilizza la lista dal modello
     )
     submit = SubmitField('Crea Evento')
+
+
+class EventFilterForm(FlaskForm):
+    """Form per filtrare gli eventi nella pagina dedicata."""
+    query = StringField('Cerca per titolo o luogo', validators=[Optional(), Length(max=100)])
+    data = DateField('Filtra per data', format='%Y-%m-%d', validators=[Optional()])
+    tipologia = SelectField(
+        'Tipologia Evento',
+        # Aggiunge l'opzione "Tutte" alla lista importata dal modello
+        choices=[('', 'Tutte le tipologie')] + Event.TIPOLOGIA_CHOICES,
+        validators=[Optional()]
+    )
+
+    creatore = SelectField('Cerca per nome del creatore', choices=[('', 'Tutti i creatori')], validators=[Optional()])
+    submit = SubmitField('Filtra Eventi')
+
+# ==============================================================================
+# FORM PER LA RICERCA DI GIOCATORI
+# ==============================================================================
+
+class PlayerSearchForm(FlaskForm):
+    """Form per la ricerca di giocatori per nome."""
+    query = StringField('Nome del giocatore', validators=[DataRequired(), Length(min=1, max=64)])
+    submit = SubmitField('Cerca')

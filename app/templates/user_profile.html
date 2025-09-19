@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="text-white max-w-3xl mx-auto">
+    
+    <div class="bg-gray-800 rounded-lg p-8">
+        <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left space-y-6 md:space-y-0 md:space-x-8">
+            <div class="flex-shrink-0">
+                <h1 class="text-4xl font-bold">{{ user.nome }} {{ user.cognome or ''}}</h1>
+                <p class="text-indigo-400 mt-1">Livello: {{ user.livello }}</p>
+
+                <div class="mt-6">
+                    {% if user != current_user %}
+                        {% if current_user.is_rallying(user) %}
+                            <form action="{{ url_for('main.unrally_user', username=user.nome) }}" method="post">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="w-full rounded-md bg-gray-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500">
+                                    Termina Rally
+                                </button>
+                            </form>
+                        {% else %}
+                            <form action="{{ url_for('main.rally_user', username=user.nome) }}" method="post">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="w-full rounded-md bg-indigo-500 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400">
+                                    Inizia Rally
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="flex-grow border-t md:border-t-0 md:border-l border-gray-700 pt-6 md:pt-0 md:pl-8">
+                <h3 class="text-xl font-bold mb-4">Statistiche Giocatore</h3>
+                <div class="grid grid-cols-2 gap-4 text-center">
+                    <div>
+                        <p class="text-3xl font-bold">{{ eventi_creati }}</p>
+                        <p class="text-sm text-gray-400">Eventi Creati</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold">{{ eventi_partecipati }}</p>
+                        <p class="text-sm text-gray-400">Eventi Partecipati</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold">{{ user.followers.count() }}</p>
+                        <p class="text-sm text-gray-400">Followers</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold">{{ user.followed.count() }}</p>
+                        <p class="text-sm text-gray-400">Following</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

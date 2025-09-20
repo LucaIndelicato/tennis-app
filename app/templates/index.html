@@ -40,12 +40,39 @@
             </a>
         </div>
     </div>
-    <div class="text-center mt-12">
-        <h1 class="text-4xl font-bold">Benvenuto in TennisApp!</h1>
-        <p class="text-gray-400 mt-4">Scopri tutte le partite e gli allenamenti disponibili nella sezione eventi.</p>
-        <a href="{{ url_for('main.events') }}" class="mt-6 inline-block rounded-md bg-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-400">
-            Vai agli Eventi
-        </a>
+
+    <div class="relative max-w-5xl mx-auto rounded-lg overflow-hidden shadow-2xl my-12" style="height: 35vh;">
+        <video class="absolute top-0 left-0 w-full h-full object-cover" autoplay loop muted playsinline>
+            <source src="{{ url_for('static', filename='tennis_rally.mp4') }}" type="video/mp4">
+            Il tuo browser non supporta il tag video.
+        </video>
+        
+        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+
+        <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center p-4">
+            <h1 id="typewriter" class="text-4xl md:text-5xl font-bold text-white mb-6"></h1>
+            <a href="{{ url_for('main.events') }}" class="mt-6 inline-block rounded-md bg-indigo-500 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-400 transition-transform transform hover:scale-105">
+                Scopri gli Eventi
+            </a>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const text = "Tennis Milano Events, il posto per i tennisti! Unisciti anche tu!";
+            const target = document.getElementById('typewriter');
+            let i = 0;
+
+            function typeWriter() {
+                if (i < text.length) {
+                    target.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 75); // Velocità di scrittura (in millisecondi)
+                }
+            }
+            
+            typeWriter();
+        });
+    </script>
 </div>
 {% endblock %}

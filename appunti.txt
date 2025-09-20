@@ -10,3 +10,7 @@ Creare funzionalità a livello utente
 - caricamento di una foto
 - descrzione personale
 - feedback eventi
+
+
+Appunti
+- l'interfaccia da mobile non è buona, i link a inizio pagina non si ridimesionano bene e sono tutti in overlap 🐞

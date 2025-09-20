@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/LucaIndelicato/tennis-app/main/app/static/logo.png" alt="TennisApp Logo" width="150"/>
+  <!-- <img src="https://raw.githubusercontent.com/LucaIndelicato/tennis-app/main/app/static/logo.png" alt="TennisApp Logo" width="150"/> -->
   <h1><b>TennisApp 🎾</b></h1>
   <p>Una web app social per giocatori di tennis amatoriali. Organizza partite, trova nuovi avversari e cresci nella community!</p>
   
